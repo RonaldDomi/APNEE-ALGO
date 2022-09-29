@@ -19,5 +19,5 @@ char depiler(tableau *t){
 }
 
 int est_vide(tableau t){
-    return t.taille == 0
+    return t.taille == 0;
 }
