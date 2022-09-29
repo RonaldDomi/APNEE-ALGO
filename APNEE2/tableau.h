@@ -15,5 +15,7 @@ char depiler(tableau *t);
 
 int est_vide(tableau t);
 
+void afficher_tab(tableau t);
+
 
 #endif

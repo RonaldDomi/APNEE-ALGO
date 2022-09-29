@@ -23,7 +23,7 @@ int OracleParenthesage(FILE * input, int reponse) {
   init_tab(&t);
   int tmp;
   int rep = 1;
-  while ((tmp = getc(input)) != EOF)
+  while ((tmp = getc(input)) != EOF && rep == 1)
   {
     if (tmp == '(' || tmp == '[' || tmp == '{')
     {
