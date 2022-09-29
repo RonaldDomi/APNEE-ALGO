@@ -21,9 +21,9 @@ int OracleParenthesage(FILE * input, int reponse) {
 
   tableau t;
   init_tab(&t);
-  char tmp;
+  int tmp;
   int rep = 1;
-  while (tmp = fgetc(input) != EOF)
+  while ((tmp = getc(input)) != EOF)
   {
     if (tmp == '(' || tmp == '[' || tmp == '{')
     {
@@ -38,8 +38,8 @@ int OracleParenthesage(FILE * input, int reponse) {
       
     }
   }
-  
-  return reponse;
+  if(!est_vide(t)) rep = 0;
+  return reponse==rep;
 }
 
 int main(int argc, char * argv[]) {
