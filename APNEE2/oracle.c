@@ -1,9 +1,44 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "tableau.h"
+
+int correspond(char a, char b){
+  switch (a)
+  {
+  case '(':
+    return b == ')';
+  case '{':
+    return b == '}';
+  case '[':
+    return b == ']';    
+  default:
+    break;
+  }
+  return 0;
+}
 
 int OracleParenthesage(FILE * input, int reponse) {
 
-  /* A completer */
+  tableau t;
+  init_tab(&t);
+  char tmp;
+  int rep = 1;
+  while (tmp = fgetc(input) != EOF)
+  {
+    if (tmp == '(' || tmp == '[' || tmp == '{')
+    {
+      empiler(&t, tmp);
+    }
+    if (tmp == ')' || tmp == ']' || tmp == '}')
+    {
+      if (est_vide(t) || !correspond(depiler(&t), tmp))
+      {
+        rep = 0;
+      }
+      
+    }
+  }
+  
   return reponse;
 }
 
