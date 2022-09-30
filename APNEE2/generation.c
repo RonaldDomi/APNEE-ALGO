@@ -5,7 +5,6 @@
 #include "tableau.h"
 
 void parentheseValide(FILE* file, int nbr_min, int imbr_min){
-    srand(time(NULL));
     tableau t;
     init_tab(&t);
     char car, tmp;
@@ -71,10 +70,10 @@ void parentheseValide(FILE* file, int nbr_min, int imbr_min){
         taille_elem++;
     }
     putc('\n', file);
+    free(t.tab);
 }
 
 void parentheseMauvais(FILE* file, int nbr_min){
-    srand(time(NULL));
     tableau t;
     init_tab(&t);
     char car, tmp;
@@ -127,9 +126,11 @@ void parentheseMauvais(FILE* file, int nbr_min){
         if(imp) taille_elem++;
     }
     putc('\n', file);
+    free(t.tab);
 }
 
 int main(int argc, char **argv){
+    srand(time(NULL));
     if (argc != 4 && argc != 5)
     {
         printf("\nNombre dargument incorrect\n");
@@ -149,5 +150,23 @@ int main(int argc, char **argv){
     }
     else printf("\nchoisir entre Valide et Mauvais\n");
     fclose(file);
+    // for (int i = 0; i < 100; i++)
+    // {
+    //     char *name = malloc(20); 
+    //     sprintf(name, "test/Ttest%d.txt", i);
+    //     FILE* file = fopen(name, "w");
+    //     parentheseValide(file, 100, 5);
+    //     fclose(file);
+    //     free(name); 
+    // }
+    // for (int i = 0; i < 100; i++)
+    // {
+    //     char *name = malloc(20); 
+    //     sprintf(name, "test/Ftest%d.txt", i);
+    //     FILE* file = fopen(name, "w");
+    //     parentheseMauvais(file, 100);
+    //     fclose(file);
+    //     free(name); 
+    // }
     return 0;
 }

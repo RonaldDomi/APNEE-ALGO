@@ -5,7 +5,7 @@
 void init_tab(tableau *t)
 {
     t->taille = 0;
-    t->tab = malloc(10000);
+    t->tab = malloc(1000000);
 }
 
 void empiler(tableau *t, char c){
