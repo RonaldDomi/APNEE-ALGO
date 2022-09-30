@@ -59,11 +59,17 @@ void parentheseValide(FILE* file, int nbr_min){
 
 void parentheseMauvais(FILE* file, int nbr_min){
     srand(time(NULL));
+    tableau t;
+    init_tab(&t);
     char car, tmp;
-    int rd, rd2, taille_elem = 0;
-    while (taille_elem < nbr_min)
+    int rd, rd2, taille_elem = 0, imp;
+    while (!est_vide(t) || taille_elem < nbr_min)
     {
-        rd = rand() % 2;
+        imp = 1;
+        if(!est_vide(t)) rd = rand() % 2;
+        //si la pile est vide on peut pas avoir de parenthése 
+        //fermante donc on force parenthese ouvrante
+        else rd = 0;
         switch (rd)
         {
         case 0:
@@ -81,27 +87,28 @@ void parentheseMauvais(FILE* file, int nbr_min){
                 car = '{';
                 break;    
             }
-            putc(car, file);
+            if(rand()%4){putc(car, file); imp = 0;} 
+            empiler(&t, car);
             break;
         case 1:
             /* code parenthese fermante*/
-            rd2 = rand()%3;
-            switch (rd2)
+            tmp = depiler(&t);
+            switch(tmp)
             {
-            case 0:
-                car = ')';
-                break;
-            case 1:
-                car = ']';
-                break;
-            case 2:
-                car = '}';
-                break;    
+                case '(':
+                    car = ')';
+                    break;
+                case '{':
+                    car = '}';
+                    break;
+                case '[':
+                    car = ']';
+                    break;
             }
-            putc(car, file);
+            if(rand()%4) {putc(car, file); imp = 0;}
             break; 
         }
-        taille_elem++;
+        if(imp) taille_elem++;
     }
     putc('\n', file);
 }
