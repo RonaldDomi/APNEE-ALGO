@@ -2,19 +2,12 @@
 #include <stdio.h>
 #include "tableau.h"
 
-int main(int argc, char **argv){
-    if (argc != 3)
-    {
-        printf("\nNombre dargument incorrect\n");
-        printf("./generation file nbr_min_element\n");
-        return 1;
-    }
+void parenthese_correct(FILE* file, int nbr_min){
     srand(time(NULL));
-    FILE* file = fopen(argv[1], "w");
     tableau t;
     init_tab(&t);
-    int nbr_min = atoi(argv[2]), taille_elem = 0, rd, rd2;
     char car, tmp;
+    int rd, rd2, taille_elem = 0;
     while (!est_vide(t) || taille_elem < nbr_min)
     {
         if(!est_vide(t)) rd = rand() % 2;
@@ -62,6 +55,18 @@ int main(int argc, char **argv){
         taille_elem++;
     }
     putc('\n', file);
+}
+
+int main(int argc, char **argv){
+    if (argc != 3)
+    {
+        printf("\nNombre dargument incorrect\n");
+        printf("./generation file nbr_min_element\n");
+        return 1;
+    }
+    FILE* file = fopen(argv[1], "w");
+    int nbr_min = atoi(argv[2]);
+    parenthese_correct(file, nbr_min);
     fclose(file);
     return 0;
 }
