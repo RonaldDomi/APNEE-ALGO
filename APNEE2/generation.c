@@ -1,19 +1,35 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
+#include <string.h>
 #include "tableau.h"
 
-void parentheseValide(FILE* file, int nbr_min){
+void parentheseValide(FILE* file, int nbr_min, int imbr_min){
     srand(time(NULL));
     tableau t;
     init_tab(&t);
     char car, tmp;
-    int rd, rd2, taille_elem = 0;
+    int rd, rd2, taille_elem = 0, imbr_att = 0;
     while (!est_vide(t) || taille_elem < nbr_min)
     {
-        if(!est_vide(t)) rd = rand() % 2;
-        //si la pile est vide on peut pas avoir de parenthése 
-        //fermante donc on force parenthese ouvrante
-        else rd = 0;
+        if(t.taille < imbr_min && !imbr_att){
+            if(!est_vide(t)){
+                if (rand()%100 < 70) rd = 0;
+                else rd = 1;
+            }
+            //si la pile est vide on peut pas avoir de parenthése 
+            //fermante donc on force parenthese ouvrante
+            else rd = 0;
+        }
+        
+        else
+        {
+            if(!est_vide(t)) rd = rand() % 2;
+            //si la pile est vide on peut pas avoir de parenthése 
+            //fermante donc on force parenthese ouvrante
+            else rd = 0;
+        }
+        if(!(t.taille < imbr_min)) imbr_att = 1;
         switch (rd)
         {
         case 0:
@@ -114,10 +130,10 @@ void parentheseMauvais(FILE* file, int nbr_min){
 }
 
 int main(int argc, char **argv){
-    if (argc != 4)
+    if (argc != 4 && argc != 5)
     {
         printf("\nNombre dargument incorrect\n");
-        printf("./generation fonction file nbr_min_element\n");
+        printf("./generation fonction file nbr_min_element niv_imbrication\n");
         return 1;
     }
 
@@ -125,13 +141,13 @@ int main(int argc, char **argv){
     int nbr_min = atoi(argv[3]);
     if (!strcmp(argv[1], "Valide"))
     {
-        parentheseValide(file, nbr_min);        
+        parentheseValide(file, nbr_min, atoi(argv[4]));        
     }
-    if (!strcmp(argv[1], "Mauvais"))
+    else if (!strcmp(argv[1], "Mauvais"))
     {
         parentheseMauvais(file, nbr_min);        
     }
-    else printf("choisir entre Valide et Mauvais");
+    else printf("\nchoisir entre Valide et Mauvais\n");
     fclose(file);
     return 0;
 }
